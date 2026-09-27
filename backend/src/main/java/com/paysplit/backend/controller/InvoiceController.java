@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/invoices")
+@CrossOrigin(origins = "http://localhost:5173")
 public class InvoiceController {
 
     private final InvoiceRepository invoiceRepository;
