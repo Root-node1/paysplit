@@ -1,0 +1,13 @@
+# Node
+node_modules/
+frontend/dist/
+
+# Java / Maven
+backend/target/
+
+# Env files
+.env
+*.env
+
+# OS
+.DS_Store
