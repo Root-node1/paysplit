@@ -1,7 +1,23 @@
+import { useState } from "react";
 import type { Invoice } from "../lib/api";
+import { openCheckout } from "../lib/checkout";
 
 export default function InvoiceResult({ invoice }: { invoice: Invoice }) {
+  const [message, setMessage] = useState<string | null>(null);
   const isPaid = invoice.status === "PAID";
+
+  const handlePay = async () => {
+    setMessage(null);
+    try {
+      await openCheckout(
+        invoice,
+        (result) => setMessage(JSON.stringify(result, null, 2)),
+        () => setMessage((m) => m ?? "Checkout closed before payment completed")
+      );
+    } catch {
+      setMessage("Could not start checkout");
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto p-6 space-y-6">
@@ -46,10 +62,16 @@ export default function InvoiceResult({ invoice }: { invoice: Invoice }) {
       {!isPaid && (
         <button
           className="w-full bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700"
-          onClick={() => alert("Payaza checkout wires in here tomorrow")}
+          onClick={handlePay}
         >
           Proceed to Payment
         </button>
+      )}
+
+      {message && (
+        <pre className="text-xs whitespace-pre-wrap border border-gray-700 rounded p-3">
+          {message}
+        </pre>
       )}
     </div>
   );
