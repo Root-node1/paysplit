@@ -31,15 +31,15 @@ export default function InvoiceResult({ invoice }: { invoice: Invoice }) {
         <p className="text-sm text-gray-400 mb-2">Split breakdown</p>
         <div className="flex justify-between text-sm">
           <span>Creator ({invoice.creatorSharePercent}%)</span>
-          <span>{invoice.creatorAmount ?? "—"}</span>
+          <span>{invoice.creatorAmount?.toFixed(2) ?? "—"}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span>Agency ({invoice.agencySharePercent}%)</span>
-          <span>{invoice.agencyAmount ?? "—"}</span>
+          <span>{invoice.agencyAmount?.toFixed(2) ?? "—"}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span>Platform ({invoice.platformSharePercent}%)</span>
-          <span>{invoice.platformAmount ?? "—"}</span>
+          <span>{invoice.platformAmount?.toFixed(2) ?? "—"}</span>
         </div>
       </div>
 

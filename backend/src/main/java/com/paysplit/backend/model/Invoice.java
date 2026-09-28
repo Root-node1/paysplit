@@ -2,6 +2,7 @@ package com.paysplit.backend.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 
 @Entity
@@ -69,4 +70,13 @@ public class Invoice {
 
     public Instant getPaidAt() { return paidAt; }
     public void setPaidAt(Instant paidAt) { this.paidAt = paidAt; }
+
+    public BigDecimal getCreatorAmount() { return portion(creatorSharePercent); }
+    public BigDecimal getAgencyAmount() { return portion(agencySharePercent); }
+    public BigDecimal getPlatformAmount() { return portion(platformSharePercent); }
+
+    private BigDecimal portion(BigDecimal percent) {
+        if (amount == null || percent == null) return null;
+        return amount.multiply(percent).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+    }
 }
