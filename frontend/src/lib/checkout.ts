@@ -3,9 +3,6 @@ import { createCheckout } from "./payaza";
 
 const API_BASE_URL = "http://localhost:8080";
 
-// Flip to true once GET /api/invoices/{id}/checkout exists on the backend
-const USE_BACKEND_CHECKOUT = false;
-
 export interface CheckoutConfig {
   merchantKey: string;
   connectionMode: "Test" | "Live";
@@ -19,23 +16,9 @@ export interface CheckoutConfig {
 }
 
 async function getConfig(invoice: Invoice): Promise<CheckoutConfig> {
-  if (USE_BACKEND_CHECKOUT) {
-    const res = await fetch(`${API_BASE_URL}/api/invoices/${invoice.id}/checkout`);
-    if (!res.ok) throw new Error("Failed to get checkout config");
-    return res.json();
-  }
-  const [firstName, ...rest] = invoice.clientName.trim().split(" ");
-  return {
-    merchantKey: import.meta.env.VITE_PAYAZA_MERCHANT_KEY,
-    connectionMode: "Test",
-    checkoutAmount: Number(invoice.amount),
-    currencyCode: invoice.currencyCode,
-    emailAddress: invoice.clientEmail,
-    firstName,
-    lastName: rest.join(" ") || "Client",
-    phoneNumber: invoice.clientPhone || "+254712345678",
-    transactionReference: "PSA-" + invoice.id.slice(0, 8) + "-" + Date.now(),
-  };
+  const res = await fetch(`${API_BASE_URL}/api/invoices/${invoice.id}/checkout`);
+  if (!res.ok) throw new Error(`Failed to get checkout config: HTTP ${res.status}`);
+  return res.json();
 }
 
 export async function openCheckout(

@@ -4,6 +4,7 @@ import InvoiceResult from "./components/InvoiceResult";
 import PayazaAuthTest from "./components/PayazaAuthTest";
 import AgencyDashboard from "./components/AgencyDashboard";
 import CreatorView from "./components/CreatorView";
+import PayPage from "./components/PayPage";
 import type { Invoice } from "./lib/api";
 
 type View = "create" | "agency" | "creator";
@@ -32,6 +33,12 @@ function App() {
     );
   }
 
+  // Public payment link: /pay/{invoiceId}
+  const payMatch = window.location.pathname.match(/^\/pay\/([^/]+)\/?$/);
+  if (payMatch) {
+    return <PayPage invoiceId={payMatch[1]} />;
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20 transition-colors duration-200">
       <div className="absolute top-4 right-4 z-50">
@@ -42,37 +49,40 @@ function App() {
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
       </div>
-      <div className="border-b border-border w-full">
-        <nav className="flex justify-center max-w-3xl mx-auto">
-          <button
-            onClick={() => setView("create")}
-            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "create" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
-          >
-            Create Invoice
-          </button>
-          <button
-            onClick={() => setView("agency")}
-            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "agency" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
-          >
-            Agency View
-          </button>
-          <button
-            onClick={() => setView("creator")}
-            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "creator" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
-          >
-            Creator View
-          </button>
-        </nav>
-      </div>
 
-      {view === "create" &&
-        (!invoice ? (
-          <InvoiceForm onCreated={setInvoice} />
-        ) : (
-          <InvoiceResult invoice={invoice} />
-        ))}
-      {view === "agency" && <AgencyDashboard />}
-      {view === "creator" && <CreatorView />}
+      <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
+        <nav className="flex items-center justify-center gap-2 border-b border-border pb-4">
+          {([
+            ["create", "Create Invoice"],
+            ["agency", "Agency View"],
+            ["creator", "Creator View"],
+          ] as const).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setView(key)}
+              className={
+                "px-5 h-10 text-sm font-medium rounded-sm transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
+                (view === key
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground")
+              }
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {view === "create" && (
+          <div className="max-w-2xl mx-auto">
+            <InvoiceForm onCreated={setInvoice} />
+            {invoice && <InvoiceResult invoice={invoice} />}
+          </div>
+        )}
+
+        {view === "agency" && <AgencyDashboard />}
+
+        {view === "creator" && <CreatorView />}
+      </div>
     </div>
   );
 }
