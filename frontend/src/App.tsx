@@ -42,26 +42,28 @@ function App() {
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
       </div>
-      <nav className="flex justify-center gap-2 p-4 border-b border-gray-800">
-        <button
-          onClick={() => setView("create")}
-          className={`px-4 py-2 rounded ${view === "create" ? "bg-white text-black" : "bg-gray-800"}`}
-        >
-          Create Invoice
-        </button>
-        <button
-          onClick={() => setView("agency")}
-          className={`px-4 py-2 rounded ${view === "agency" ? "bg-white text-black" : "bg-gray-800"}`}
-        >
-          Agency View
-        </button>
-        <button
-          onClick={() => setView("creator")}
-          className={`px-4 py-2 rounded ${view === "creator" ? "bg-white text-black" : "bg-gray-800"}`}
-        >
-          Creator View
-        </button>
-      </nav>
+      <div className="border-b border-border w-full">
+        <nav className="flex justify-center max-w-3xl mx-auto">
+          <button
+            onClick={() => setView("create")}
+            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "create" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
+          >
+            Create Invoice
+          </button>
+          <button
+            onClick={() => setView("agency")}
+            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "agency" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
+          >
+            Agency View
+          </button>
+          <button
+            onClick={() => setView("creator")}
+            className={`h-10 px-5 text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-none ${view === "creator" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground bg-transparent"}`}
+          >
+            Creator View
+          </button>
+        </nav>
+      </div>
 
       {view === "create" &&
         (!invoice ? (
