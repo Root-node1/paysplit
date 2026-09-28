@@ -1,4 +1,4 @@
-package com.paysplit.backend.model;
+package com.paysplit.backend.invoice.model;
 
 public enum InvoiceStatus {
     PENDING,

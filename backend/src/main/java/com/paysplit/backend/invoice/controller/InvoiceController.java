@@ -1,7 +1,7 @@
-package com.paysplit.backend.controller;
+package com.paysplit.backend.invoice.controller;
 
-import com.paysplit.backend.model.Invoice;
-import com.paysplit.backend.repository.InvoiceRepository;
+import com.paysplit.backend.invoice.model.Invoice;
+import com.paysplit.backend.invoice.repository.InvoiceRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
