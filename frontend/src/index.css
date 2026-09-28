@@ -1,1 +1,58 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-card-foreground);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-accent: var(--color-accent);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-destructive: var(--color-destructive);
+  --font-sans: "Inter", system-ui, sans-serif;
+  --radius-sm: 0.25rem;
+}
+
+/* Using :root for dark mode (default) and .light for overrides */
+:root {
+  --color-background: #0A0E14;
+  --color-foreground: #E6EAF0;
+  --color-card: #111721;
+  --color-card-foreground: #E6EAF0;
+  --color-muted: #1A2230;
+  --color-muted-foreground: #8892A6;
+  --color-border: #232C3D;
+  --color-primary: #1E3A5F;
+  --color-primary-foreground: #FFFFFF;
+  --color-accent: #3B82F6;
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-destructive: #DC2626;
+}
+
+.light {
+  --color-background: #FAFBFC;
+  --color-foreground: #0F172A;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0F172A;
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
+  --color-border: #E2E8F0;
+  --color-primary: #1E3A5F;
+  --color-primary-foreground: #FFFFFF;
+  --color-accent: #2563EB;
+  --color-success: #059669;
+  --color-warning: #B45309;
+  --color-destructive: #DC2626;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
