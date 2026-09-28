@@ -184,3 +184,17 @@ Stubbed / Not Yet Implemented:
   - Creators (earnings visibility)
 - Add authentication and role-based access control
 - Add logging and audit trail for transactions
+## Payaza server API authentication (confirmed 28 Sept)
+
+Headers:
+- Authorization: Payaza <base64 of the PUBLIC test key (PK)>
+- X-TenantID: test
+- Content-Type: application/json
+
+Base URL: https://api.payaza.africa/live/ (path prefix stays /live/ for test too)
+
+Verified with POST /payaza-account/api/v1/mainaccounts/merchant/provider/enquiry:
+public key returned 200, secret key (SK) returned 400 "Authentication failed",
+a wrong key returned 400 "Authentication failed".
+
+Encode with: printf '%s' "$KEY" | base64 -w0
