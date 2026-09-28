@@ -198,3 +198,10 @@ public key returned 200, secret key (SK) returned 400 "Authentication failed",
 a wrong key returned 400 "Authentication failed".
 
 Encode with: printf '%s' "$KEY" | base64 -w0
+
+## Hosted checkout verification (28 Sept ~13:27)
+- Successful USD $10 card payment (Visa test card + 3DS Y)
+- Callback transactionReference: P-C-20260928-YTQUD3EW6N
+- merchant-reference GET → "Transaction not found"
+- card_charge/transaction_status POST → transaction_status: "Completed", Payment Approved
+- Backend must use the card status endpoint to verify modal payments
