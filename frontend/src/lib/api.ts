@@ -37,3 +37,9 @@ export async function getInvoice(id: string): Promise<Invoice> {
   if (!res.ok) throw new Error("Failed to fetch invoice");
   return res.json();
 }
+
+export async function listInvoices(): Promise<Invoice[]> {
+  const res = await fetch(`${API_BASE_URL}/api/invoices`);
+  if (!res.ok) throw new Error("Failed to fetch invoices");
+  return res.json();
+}
