@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    container_name: paysplit-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: paysplit
+      POSTGRES_USER: paysplit_user
+      POSTGRES_PASSWORD: paysplit_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - paysplit_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paysplit_user -d paysplit"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  paysplit_pgdata:
