@@ -4,7 +4,7 @@ import { createCheckout } from "./payaza";
 const API_BASE_URL = "http://localhost:8080";
 
 // Flip to true once GET /api/invoices/{id}/checkout exists on the backend
-const USE_BACKEND_CHECKOUT = true;
+const USE_BACKEND_CHECKOUT = false;
 
 export interface CheckoutConfig {
   merchantKey: string;
