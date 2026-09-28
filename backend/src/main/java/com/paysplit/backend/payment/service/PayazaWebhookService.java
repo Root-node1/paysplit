@@ -1,6 +1,5 @@
 package com.paysplit.backend.payment.service;
 
-
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import com.paysplit.backend.invoice.model.Invoice;
@@ -26,6 +25,8 @@ public class PayazaWebhookService {
 
     @Transactional
     public void handle(String rawBody) throws Exception {
+        log.info("Payaza webhook received: {}", rawBody);
+
         JsonNode root = objectMapper.readTree(rawBody);
 
         String merchantRef = text(root, "merchant_reference");

@@ -1,8 +1,9 @@
 package com.paysplit.backend.payment.service;
 
-
 import com.paysplit.backend.config.PayazaProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -11,14 +12,21 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PayazaSignatureService {
 
     private final PayazaProperties props;
 
+    @PostConstruct
+    void announce() {
+        log.info("PayazaSignatureService configured: webhookSkipSignature={}", props.webhookSkipSignature());
+    }
+
     public boolean isValid(String rawBody, String signatureHeader) {
         if (props.webhookSkipSignature()) {
+            log.info("Webhook signature check SKIPPED (payaza.webhook-skip-signature=true)");
             return true;
         }
         if (rawBody == null || signatureHeader == null || signatureHeader.isBlank()) {
@@ -34,6 +42,7 @@ public class PayazaSignatureService {
                     computed.getBytes(StandardCharsets.UTF_8),
                     signatureHeader.trim().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
+            log.warn("Signature check failed: {}", e.getMessage());
             return false;
         }
     }
